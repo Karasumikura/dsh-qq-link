@@ -1571,6 +1571,28 @@ async function 重启拉取(水位值, 已转, id, time) {
   报('开了「前缀」：正文里带 [QQ]', 前2.includes('[QQ] 从手机发的话'), 前2)
   const 署 = await 试私聊('署名')
   报('开了「署名」：昵称 + 号一起带', 署.includes('阿明（789）：从手机发的话'), 署)
+
+  // ⭐ 1.6.1：总开关「带前缀」关掉之后 —— 只有原文，头和署名都不带
+  const 试不带 = async () => {
+    writeFileSync(join(家, 'qq-bridge-config.json'), JSON.stringify({ 合并窗口秒: 0, 前缀: false,
+      总开关: true, 试运行: false, NapCat: 'http://127.0.0.1:3000', 私聊署名: '署名',
+      绑定: [{ 类型: '私聊', 号码: '789', 会话: 'session-X' }],
+    }, null, 2), 'utf8')
+    私聊消息人 = 789
+    私聊消息段 = null
+    私聊消息文本 = '从手机发的话'
+    私聊消息们 = null
+    发送者昵称 = '阿明'
+    const 序 = Math.floor(Date.now() % 1000)
+    私聊消息id = 9700 + 序
+    私聊消息时间 = Math.floor(Date.now() / 1000) + 1000
+    await 轮询回调()
+    await new Promise((r) => setTimeout(r, 80))
+    return String(转进的.at(-1)?.content?.[0]?.text || '')
+  }
+  const 净 = await 试不带()
+  报('关掉「带前缀」：只有原文，没有 <qq> 头、也没有署名',
+    净.includes('从手机发的话') && !净.includes('<qq') && !净.includes('阿明（789）'), 净)
 }
 
 // ⭐ 1.4.1：点名之后「接着听」—— 先单独喂纯函数（收 / 不收 / 条数用光 / 超时 / 关掉）
