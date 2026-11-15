@@ -330,7 +330,7 @@ if (转进的[0]) {
   const 文 = String(m.content[0].text || '')
   报('/receive 消息形状：role=user + source.kind=qq + 正文对',
     m.role === 'user' && m.source && m.source.kind === 'qq'
-      && 文.includes('宝宝你在吗') && 文.startsWith('<qq 来源="本机注入·不是QQ·不是主人">'), JSON.stringify(m))
+      && 文.includes('宝宝你在吗') && 文.startsWith('【本机注入·不是QQ·不是主人】'), JSON.stringify(m))
   报('/receive 的来源头说清了「不是主人」', 文.includes('不是主人') && !文.includes('【QQ私聊】'), 文.slice(0, 40))
 }
 报('/receive 之后 DSH→QQ 那半也会把伙伴的回话发回 QQ（联动靠 session/event，不在这里再验）', true)
