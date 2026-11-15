@@ -121,7 +121,9 @@ const 模 = await import(new URL('../lib/host.js', import.meta.url).href + '?v='
 
 // ---------- 纯函数 ----------
 报('名字导出', 模.name === 'qq-bridge', 模.name)
-报('inject = agents + sessions + sessionTitle + webServer + timer + workspaceRegistry + attachments + tools', Array.isArray(模.inject) && 模.inject.join() === 'agents,sessions,sessionTitle,webServer,timer,workspaceRegistry,attachments,tools', String(模.inject))
+报('inject 只列离不开的服务（sessionTitle 缺了也不该卡住插件）',
+  Array.isArray(模.inject) && 模.inject.join() === 'agents,sessions,webServer,timer,workspaceRegistry,attachments,tools'
+    && !模.inject.includes('sessionTitle'), String(模.inject))
 
 const 块 = (type, text) => ({ type, text })
 const 正文 = 模.提取正文({ content: [块('reasoning', '想一下'), 块('text', '第一条\n第二条'), 块('image', ''), 块('text', '第三条')] })
