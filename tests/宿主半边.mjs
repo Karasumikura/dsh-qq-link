@@ -1185,7 +1185,11 @@ const 多段 = ['第一段话', '第二段话', '第三段话'].join(String.from
 监听[0](会话, 助手消息(60, 1, [块('text', 多段)], false))
 监听[0](会话, 转完(60))
 await new Promise((r) => setTimeout(r, 80))
-报('「长回复拆段」关掉 → 一整段只发一条消息', 发了.length === 1 && String(发了[0].体.message[0].data.text).includes('第三段话'), '发了 ' + 发了.length + ' 条')
+// ⚠ 1.6.4 起：QQ 唤醒窗口内发出的消息，第一段前面会挂一个 reply 段（引用她那条）。
+//   所以这里不能假设 message[0] 一定是 text —— 把所有 text 段拼起来看内容。
+报('「长回复拆段」关掉 → 一整段只发一条消息',
+  发了.length === 1 && String(发了[0].体.message.filter((x) => x.type === 'text').map((x) => x.data.text).join('')).includes('第三段话'),
+  '发了 ' + 发了.length + ' 条')
 writeFileSync(join(家, 'qq-bridge-config.json'), JSON.stringify({ 合并窗口秒: 0,
   总开关: true, 试运行: false, 长回复拆段: true, 拆段间隔毫秒: 0, NapCat: 'http://127.0.0.1:3000',
   绑定: [{ 类型: '私聊', 号码: '123', 会话: 'session-X', 称呼: '小明' }],
